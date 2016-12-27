@@ -17,5 +17,5 @@ install:
 - gcloud auth activate-service-account --key-file client-secret.json
 - gcloud config set project chesshacker-project
 script:
-# Testing access to deployment manager. Will eventually change from list to update.
-- gcloud deployment-manager deployments list
+- gcloud deployment-manager deployments update deployment --config=deployment.yml --preview
+- gcloud deployment-manager deployments update deployment

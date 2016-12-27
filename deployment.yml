@@ -1,0 +1,7 @@
+resources:
+  - name: chesshacker-zone
+    type: dns.v1.managedZone
+    properties:
+      name: chesshacker
+      dnsName: chesshacker.com.
+      description: chesshacker.com managed zone
