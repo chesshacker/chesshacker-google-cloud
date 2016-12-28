@@ -1,0 +1,7 @@
+---
+kind: dns#resourceRecordSet
+name: chesshacker.com.
+rrdatas:
+  - google-site-verification=5dzAzkBcZfJaHAdmAhwECMIHblgfJeorkkS8f2uaFlY
+ttl: 300
+type: TXT
