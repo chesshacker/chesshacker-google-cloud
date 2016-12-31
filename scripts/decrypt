@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cd "$( dirname "${BASH_SOURCE[0]}" )/.."
+if [ -f super-secret-password.txt ]; then
+  super_secret_password=$(cat super-secret-password.txt)
+fi
+if [ -z ${super_secret_password+x} ]; then
+  echo "decrypt failed: super_secret_password was not provided"
+  exit 1
+fi
+openssl aes-256-cbc -k "${super_secret_password}" -in secure.tar.gz.enc -out secure.tar.gz -d
+tar xzf secure.tar.gz
+rm secure.tar.gz

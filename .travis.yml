@@ -1,21 +1,19 @@
-# Reference: https://cloud.google.com/solutions/continuous-delivery-with-travis-ci
 language: python
-# Cache our Google Cloud SDK between commands
 cache:
   directories:
-  - "$HOME/google-cloud-sdk/"
+  - $HOME/google-cloud-sdk/
 env:
-# Make sure gcloud command is on our PATH
-- PATH=$PATH:${HOME}/google-cloud-sdk/bin
+  matrix:
+  - PATH=${PATH}:${HOME}/google-cloud-sdk/bin
+  global:
+    secure: ZH7ObAynKj4cIIylKj24Gwybi5//wVDKwkhWodNLHsCwgnAag32s1tKWeHzlctmyOx7FTTFX5IR2vrqXB3Zoo3GDjmiMufVGNr+L7aDFOL01f++Q9TTtqDv7WL6Q15Piluvvivu4h5XPtCcUlp3y3ImTc0SINxOVWi2tT3850v4bLgXR639JOX04MF/tbOARGiIECQ9qu4tep5pDSk4TbOZUvMwxSv8EN4DipZN8YV0JTBhOHl4YZ3Pa9x2xaW6MFcwwFbw4Ybcvv4LPqcvc3uht7b4qKzd7wdOlySPRNo2P6lCjtPqct56/vd8Gm3BSmW8jOiSCsBJLS7a2I1OZzPAJkMS55xjy+BLmyFs63noj+PGNLa3CnmkCNffhlSSQYP0uX5x/JFtTYPh0QYSLA4X2R+WXMFl44E6NjEbMvGhGoPKbtEpFgMJaWACqKWf3MlTUMRvf0cno2gU+ynygn08/w3AnT2fM+gJ5i4unY4IxndTjn2gUdC2AGw1ThIM8Q6I1Azf7hVgV2qmD7vX7MshD63knuGjIIrjbkt73NRZAxMIdRrW8mKbIAEX3IzcVrsV3pn5TJjqfLoD9ZLvpQmD4+bIm8vcJHb/8TUZAQzy+7LJrg+qkwbGuNI7vvW3W58jQ9VOrwqcYzikce0/aedsBft3i29PkP6FY2aEN8GM=
 before_install:
-# Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
-- openssl aes-256-cbc -K $encrypted_997e293d8fa5_key -iv $encrypted_997e293d8fa5_iv -in client-secret.json.enc -out client-secret.json -d
+- scripts/decrypt
 install:
-# If the Google Cloud SDK is not already cached, download it and unpack it
 - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
 - gcloud version
-- gcloud auth activate-service-account --key-file client-secret.json
-- gcloud config set project chesshacker-project
+- gcloud auth activate-service-account --key-file secure/client-secret.json
+- gcloud config set project chesshacker-primary
 script:
 - gcloud deployment-manager deployments update deployment --config=deployment.yml --preview
 - gcloud deployment-manager deployments update deployment
