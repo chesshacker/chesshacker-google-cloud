@@ -6,5 +6,5 @@ Update the `chesshacker-zone.yml` file, then run the following to replace all th
 except the NS and SOA records.
 
 ```
-gcloud dns record-sets import --delete-all-existing --zone=chesshacker chesshacker-zone.yml
+gcloud dns record-sets import --delete-all-existing --zone=chesshacker --zone-file-format chesshacker.zone
 ```
